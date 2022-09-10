@@ -35,11 +35,11 @@ const addMovie = (req, res) => {
       const movie = JSON.parse(body);
       const fileData = JSON.parse(jsonData);
       const { movies } = fileData;
-      movies.push({ id: movies.length + 1, ...movie });
-
+      const newMovie = { id: movies.length + 1, ...movie }
+      movies.push(newMovie);
       const writingData = JSON.stringify(fileData);
 
-      fs.writeFile(dataPath, writingData, (error) => {
+      fs.writeFile(filePath, writingData, (error) => {
         if(error) {
           res.writeHead(500);
           res.end(JSON.stringify('Internal server error'));
@@ -50,7 +50,7 @@ const addMovie = (req, res) => {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json'
         });
-        res.end('{success: true}');
+        res.end(JSON.stringify(newMovie));
       })
     });
   });
