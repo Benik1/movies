@@ -2,9 +2,9 @@ const fs = require('fs');
 const path = require('path');
 
 const getAllMovies = (req, res) => {
-  const dataPath = path.join(__dirname, '..', '..', 'data.json');
+  const filePath = path.join(__dirname, '..', '..', 'data.json');
 
-  fs.readFile(dataPath, (error, jsonData) => {
+  fs.readFile(filePath, (error, jsonData) => {
     if(error) {
       res.writeHead(500);
       res.end(JSON.stringify('Internal server error'));
@@ -20,9 +20,9 @@ const addMovie = (req, res) => {
   req.on('data', chunk => { body += chunk.toString('utf8') });
 
   req.on('end', () => {
-    const dataPath = path.join(__dirname, '..', '..', 'data.json');
+    const filePath = path.join(__dirname, '..', '..', 'data.json');
 
-    fs.readFile(dataPath, (error, jsonData) => {
+    fs.readFile(filePath, (error, jsonData) => {
       if(error) {
         res.writeHead(500);
         res.end(JSON.stringify('Internal server error'));
