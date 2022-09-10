@@ -3,7 +3,7 @@ const controllers = require('./controllers');
 
 const { getAllMovies, addMovie } = controllers;
 
-const PORT = 8000;
+const PORT = 8990;
 
 // Create a local server to receive data from
 const server = http.createServer(
@@ -24,7 +24,10 @@ const server = http.createServer(
       return;
     }
 
-    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.writeHead(404, {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'text/html; charset=utf-8',
+    });
     res.end('<h1> Not Found </h1>');
   }
 );

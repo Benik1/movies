@@ -10,7 +10,10 @@ const getAllMovies = (req, res) => {
       res.end(JSON.stringify('Internal server error'));
       return;
     }
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.writeHead(200, {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json'
+    });
     res.end(jsonData);
   });
 }
@@ -43,7 +46,10 @@ const addMovie = (req, res) => {
           return;
         }
 
-        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.writeHead(200, {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        });
         res.end('{success: true}');
       })
     });
