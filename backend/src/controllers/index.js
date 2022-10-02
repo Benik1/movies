@@ -15,7 +15,10 @@ const getAllMovies = (req, res) => {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json'
     });
-    res.end(jsonData);
+
+    setTimeout(() => {
+      res.end(jsonData);
+    }, 1000);
   });
 }
 
@@ -47,7 +50,10 @@ const addMovie = (req, res) => {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json'
       });
-      res.end(JSON.stringify(newMovie));
+
+      setTimeout(() => {
+        res.end(JSON.stringify(newMovie));
+      }, 1000);
     })
   });
 }
