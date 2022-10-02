@@ -11,6 +11,11 @@ const getAllMovies = () => (
   instance.get(endpoints.MOVIES)
 )
 
+const getMoveById = (id) => (
+  instance.get(endpoints.MOVIE(id))
+)
+
 export default {
-  getAllMovies
+  getAllMovies,
+  getMoveById
 }

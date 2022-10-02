@@ -1,5 +1,6 @@
 export const endpoints = {
-  MOVIES: '/movies'
+  MOVIES: '/movies',
+  MOVIE: (id) => `/movies/${id}`
 }
 
 export const routes = {

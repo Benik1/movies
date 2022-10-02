@@ -4,10 +4,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 
 import userReducer from './user';
+import movieReducer from './movie';
 import moviesReducer from './movies';
 
 const rootReducer = combineReducers({
   user: userReducer,
+  movie: movieReducer,
   movies: moviesReducer
 });
 

@@ -1,6 +1,6 @@
 
 import { useSelector, useDispatch } from 'react-redux'
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, CircularProgress } from '@mui/material';
 
 import { getAllMovies } from '../../store/movies'
 import { useEffect } from 'react';
@@ -21,14 +21,18 @@ function Dashboard() {
 
   return (
     <Container sx={{ paddingTop: 4 }} >
-      <Grid container spacing={3}>
-        {data?.map((movie) => {
-          return (
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <MovieItem movie={movie} />
-            </Grid>
-          )
-        })}
+      <Grid container spacing={3} justifyContent='center'>
+        {loading ? (
+          <CircularProgress size={70} sx={{ marginTop: 40 }} />
+        ) : (
+          data?.map((movie) => {
+            return (
+              <Grid key={movie.id} item xs={12} sm={6} md={4} lg={3}>
+                <MovieItem movie={movie} />
+              </Grid>
+            )
+          })
+        )}
       </Grid>
     </Container>
   )
