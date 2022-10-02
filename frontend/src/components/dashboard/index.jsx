@@ -1,21 +1,26 @@
 
 import { useSelector, useDispatch } from 'react-redux'
-import MovieForm from './MovieForm';
-import MovieItem from './MovieItem';
 import { Container } from '@mui/material';
 
+import { getAllMovies } from '../../store/movies'
+import { useEffect } from 'react';
+
 function Dashboard() {
+  const dispatch = useDispatch();
+
   const movies = useSelector((state) => state.movies);
-  const { data } = movies;
+
+  const { data, loading } = movies;
+
+  useEffect(() => {
+    dispatch(getAllMovies())
+  }, [])
+
 
   return (
     <Container sx={{ paddingTop: 4 }} >
-      <MovieForm />
-      {data.map((movie) => {
-        return (
-          <MovieItem key={movie.name} name={movie.name} releaseDate={movie.releaseDate} />
-        )
-      })}
+
+
     </Container>
   )
 }
