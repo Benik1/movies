@@ -25,7 +25,7 @@ function Dashboard() {
         {data?.map((movie) => {
           return (
             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <MovieItem name={movie.name} src={movie.src} description={movie.description} />
+              <MovieItem movie={movie} />
             </Grid>
           )
         })}
