@@ -35,7 +35,8 @@ const addMovie = (req, res) => {
     const movie = req.body;
     const fileData = JSON.parse(jsonData);
     const { movies } = fileData;
-    const newMovie = { id: movies.length + 1, ...movie }
+    const rate = Math.round(Math.random() * (10 - 1) + 1);
+    const newMovie = { id: movies.length + 1, ...movie, rate }
     movies.push(newMovie);
     const writingData = JSON.stringify(fileData);
 
