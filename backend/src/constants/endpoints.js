@@ -1,5 +1,6 @@
 
 
 module.exports = {
-  MOVIES: '/movies'
+  MOVIES: '/movies',
+  MOVIE: '/movies/:movieId'
 }
