@@ -1,11 +1,77 @@
 const fs = require('fs');
 const path = require('path');
 
+const updateMovieById = (req, res) => {
+  const { movieId } = req.params;
+
+  const filePath = path.join(__dirname, '..', '..', 'data.json');
+  fs.readFile(filePath, 'utf-8', (error, jsonData) => {
+    if (error) {
+      res.writeHead(500);
+      res.end(JSON.stringify('Internal server error'));
+      return;
+    }
+    const { movies } = JSON.parse(jsonData);
+
+    const newMovies = movies.map(movie => {
+      if(movie.id === Number(movieId)) {
+        const name = req.body.name || movie.name;
+        return { ...movie, name }
+      }
+      return movie;
+    });
+
+    fs.writeFile(filePath, JSON.stringify({ movies: newMovies }), (error) => {
+      if (error) {
+        res.writeHead(500);
+        res.end(JSON.stringify('Internal server error'));
+        return;
+      }
+
+      setTimeout(() => {
+        res.json({ movies: newMovies });
+      }, 1000);
+    })
+
+  })
+
+}
+
+
+const deleteMovieById = (req, res) => {
+  const { movieId } = req.params;
+
+  const filePath = path.join(__dirname, '..', '..', 'data.json');
+  fs.readFile(filePath, 'utf-8', (error, jsonData) => {
+    if (error) {
+      res.writeHead(500);
+      res.end(JSON.stringify('Internal server error'));
+      return;
+    }
+    const { movies } = JSON.parse(jsonData);
+
+    const newMovies = movies.filter(movie => movie.id !== Number(movieId));
+
+    fs.writeFile(filePath, JSON.stringify({ movies: newMovies }), (error) => {
+      if (error) {
+        res.writeHead(500);
+        res.end(JSON.stringify('Internal server error'));
+        return;
+      }
+
+      setTimeout(() => {
+        res.json({ movies: newMovies });
+      }, 1000);
+    })
+
+  })
+}
+
 const getMovieById = (req, res) => {
   const { movieId } = req.params;
   const filePath = path.join(__dirname, '..', '..', 'data.json');
-  fs.readFile(filePath,  'utf-8', (error, jsonData) => {
-    if(error) {
+  fs.readFile(filePath, 'utf-8', (error, jsonData) => {
+    if (error) {
       res.writeHead(500);
       res.end(JSON.stringify('Internal server error'));
       return;
@@ -22,14 +88,14 @@ const getAllMovies = (req, res) => {
   const filePath = path.join(__dirname, '..', '..', 'data.json');
 
   fs.readFile(filePath, (error, jsonData) => {
-    if(error) {
+    if (error) {
       res.writeHead(500);
       res.end(JSON.stringify('Internal server error'));
       return;
     }
 
     setTimeout(() => {
-      res.end(jsonData);
+      res.json(JSON.parse(jsonData));
     }, 1000);
   });
 }
@@ -38,7 +104,7 @@ const addMovie = (req, res) => {
   const filePath = path.join(__dirname, '..', '..', 'data.json');
 
   fs.readFile(filePath, (error, jsonData) => {
-    if(error) {
+    if (error) {
       res.writeHead(500);
       res.end(JSON.stringify('Internal server error'));
       return;
@@ -53,19 +119,14 @@ const addMovie = (req, res) => {
     const writingData = JSON.stringify(fileData);
 
     fs.writeFile(filePath, writingData, (error) => {
-      if(error) {
+      if (error) {
         res.writeHead(500);
         res.end(JSON.stringify('Internal server error'));
         return;
       }
 
-      res.writeHead(200, {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
-      });
-
       setTimeout(() => {
-        res.end(JSON.stringify(newMovie));
+        res.json(newMovie);
       }, 1000);
     })
   });
@@ -74,5 +135,7 @@ const addMovie = (req, res) => {
 module.exports = {
   addMovie,
   getMovieById,
-  getAllMovies
+  getAllMovies,
+  deleteMovieById,
+  updateMovieById
 }

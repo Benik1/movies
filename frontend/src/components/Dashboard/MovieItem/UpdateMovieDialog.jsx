@@ -1,29 +1,33 @@
+import { useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
+  TextField,
   DialogTitle,
   DialogContent,
   DialogActions,
   CircularProgress,
   DialogContentText,
 } from '@mui/material';
-import { deleteMovieById } from '../../../store/movies';
 import { useSelector, useDispatch } from 'react-redux'
 
-function DeleteMovieDialog(props) {
+function UpdateMovieDialog(props) {
   const dispatch = useDispatch();
 
   const { open, id, onClose, name } = props;
 
   const movies = useSelector((state) => state.movies);
-  const { deleteMovieLoading } = movies;
 
-  const onDelete = (e) => {
+  const [movieName, setMovieName] = useState('');
+
+  const onChange = (e) => {
+    const value = e?.target?.value || ''
+    setMovieName(value);
+  }
+
+  const onUpdate = (e) => {
     e.stopPropagation();
-    dispatch(deleteMovieById(id))
-      .then(() => {
-        onClose(e)
-      })
+    // TODO:
   }
 
   const onClick = (e) => {
@@ -39,25 +43,21 @@ function DeleteMovieDialog(props) {
       onClose={onClose}
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle>Delete Movie</DialogTitle>
+      <DialogTitle>{`Update movie ${name}`}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-slide-description">
-          {`Are you sure you want to delete movie ${name}`}
-        </DialogContentText>
+        <TextField sx={{ mt: 2 }} label='Movie Name' onChange={onChange} defaultValue={name} value={movieName} />
       </DialogContent>
       <DialogActions>
-        <Button disabled={deleteMovieLoading} onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose}>Cancel</Button>
         <Button
-          disabled={deleteMovieLoading}
           color='error'
-          onClick={onDelete}
-          endIcon={deleteMovieLoading && <CircularProgress color='error' size={18} />}
+          onClick={onUpdate}
         >
-          Delate
+          Update
         </Button>
       </DialogActions>
     </Dialog>
   )
 }
 
-export default DeleteMovieDialog;
+export default UpdateMovieDialog;

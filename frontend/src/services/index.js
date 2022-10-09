@@ -15,7 +15,18 @@ const getMoveById = (id) => (
   instance.get(endpoints.MOVIE(id))
 )
 
+const deleteMovieById = (id) => (
+  instance.delete(endpoints.MOVIE(id))
+)
+
+const updateMovie = (id, data) => (
+  instance.put(endpoints.MOVIE(id), data)
+)
+
+
 export default {
+  updateMovie,
   getAllMovies,
-  getMoveById
+  getMoveById,
+  deleteMovieById
 }
