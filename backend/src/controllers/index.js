@@ -14,9 +14,8 @@ const updateMovieById = (req, res) => {
     const { movies } = JSON.parse(jsonData);
 
     const newMovies = movies.map(movie => {
-      if(movie.id === Number(movieId)) {
-        const name = req.body.name || movie.name;
-        return { ...movie, name }
+      if (movie.id === Number(movieId)) {
+        return { ...movie, ...req.body }
       }
       return movie;
     });
