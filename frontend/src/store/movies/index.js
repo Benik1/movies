@@ -3,7 +3,8 @@ import services from '../../services';
 const initialState = {
   data: [],
   loading: false,
-  deleteMovieLoading: false
+  deleteMovieLoading: false,
+  updateMovieLoading: false
 }
 
 export const MOVIES_GET_ALL_MOVIES = 'movies/getAllMovies'
@@ -13,6 +14,9 @@ export const MOVIES_ADD_MOVIE = 'movies/AddMovie';
 
 export const MOVIES_DELETE_MOVIE = 'movies/moviesDeleteMovie';
 export const MOVIES_CHANGE_DELETE_LOADING = 'movies/changeDeleteLoading';
+
+export const MOVIES_UPDATE_MOVIE = 'movies/updateMovie';
+export const MOVIES_CHANGE_UPDATE_LOADING = 'movies/changeUpdateLoading';
 
 function moviesReducer(state = initialState, action) {
   switch (action.type) {
@@ -31,6 +35,10 @@ function moviesReducer(state = initialState, action) {
       return { ...state, deleteMovieLoading: action.payload }
     case MOVIES_DELETE_MOVIE:
       return { ...state, data: action.payload }
+    case MOVIES_UPDATE_MOVIE:
+      return { ...state, data: action.payload }
+    case MOVIES_CHANGE_UPDATE_LOADING:
+      return { ...state, updateMovieLoading: action.payload }
     default:
       return state
   }
@@ -52,6 +60,28 @@ const getAllMovies = () => {
       })
       .finally(() => {
         dispatch({ type: MOVIES_CHANGE_LOADING, payload: false });
+      })
+  }
+}
+
+const updateMovieById = (id, body) => {
+  return dispatch => {
+    dispatch({ type: MOVIES_CHANGE_UPDATE_LOADING, payload: true });
+    return services.updateMovie(id, body)
+      .then((response) => {
+        const movies = response?.data?.movies || [];
+        dispatch({
+          type: MOVIES_UPDATE_MOVIE,
+          payload: movies
+        })
+        return Promise.resolve()
+      })
+      .catch(() => {
+        // :TODO
+        return Promise.reject()
+      })
+      .finally(() => {
+        dispatch({ type: MOVIES_CHANGE_UPDATE_LOADING, payload: false });
       })
   }
 }
@@ -86,6 +116,6 @@ const addMovie = (movie) => {
 }
 
 
-export { addMovie, getAllMovies, deleteMovieById }
+export { addMovie, getAllMovies, deleteMovieById, updateMovieById }
 
 export default moviesReducer;

@@ -28,7 +28,7 @@ function DeleteMovieDialog(props) {
 
   const onClick = (e) => {
     e.stopPropagation();
-    e.preventDefault(e);
+    // e.preventDefault(e);
   }
 
   return (

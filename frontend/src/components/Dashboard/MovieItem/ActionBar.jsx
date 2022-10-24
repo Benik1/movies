@@ -31,8 +31,7 @@ function ActionBar(props) {
       <DeleteOutlineOutlinedIcon sx={{ color: red[500] }} onClick={toggleDeleteDialog(true)} />
 
       <UpdateMovieDialog
-        id={id}
-        name={name}
+        movie={props.movie}
         open={openUpdateDialog}
         onClose={toggleUpdateDialog(false)}
       />

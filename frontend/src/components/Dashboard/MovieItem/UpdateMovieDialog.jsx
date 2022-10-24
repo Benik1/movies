@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -7,32 +7,44 @@ import {
   DialogContent,
   DialogActions,
   CircularProgress,
-  DialogContentText,
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux'
+import { updateMovieById } from '../../../store/movies';
+
 
 function UpdateMovieDialog(props) {
   const dispatch = useDispatch();
 
-  const { open, id, onClose, name } = props;
+  const { open, movie, onClose } = props;
 
   const movies = useSelector((state) => state.movies);
 
+  const { updateMovieLoading } = movies;
+
   const [movieName, setMovieName] = useState('');
 
-  const onChange = (e) => {
+  const onNameChange = (e) => {
     const value = e?.target?.value || ''
     setMovieName(value);
   }
 
   const onUpdate = (e) => {
+    if(updateMovieLoading) return;
     e.stopPropagation();
-    // TODO:
+    dispatch(updateMovieById(movie.id, { name: movieName }))
+      .then(() => {
+        onClose(e)
+        setMovieName('');
+      })
+  }
+
+  const onModalClose = (e) => { 
+    setMovieName('');
+    onClose(e)
   }
 
   const onClick = (e) => {
     e.stopPropagation();
-    e.preventDefault(e);
   }
 
   return (
@@ -43,15 +55,17 @@ function UpdateMovieDialog(props) {
       onClose={onClose}
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle>{`Update movie ${name}`}</DialogTitle>
+      <DialogTitle>{`Update movie ${movie.name}`}</DialogTitle>
       <DialogContent>
-        <TextField sx={{ mt: 2 }} label='Movie Name' onChange={onChange} defaultValue={name} value={movieName} />
+        <TextField sx={{ mt: 2 }} label='Movie Name' onChange={onNameChange} defaultValue={movie.name} value={movieName} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onModalClose}>Cancel</Button>
         <Button
           color='error'
           onClick={onUpdate}
+          disabled={!movieName}
+          endIcon={updateMovieLoading && <CircularProgress color='error' size={15} />}
         >
           Update
         </Button>
