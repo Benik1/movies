@@ -8,3 +8,17 @@ export const routes = {
   movies: '/movies',
   movie: '/movies/:movieId'
 }
+
+export const actors = [
+  'Scarlett Johansson',
+  'Morgan Friman',
+  'Leandro Dicaprio',
+  'Margot Robbie',
+  'Penelope Cruz',
+  'Monica Bellucci',
+  'Salma Hayek',
+  'Angelina Jolie',
+  'Kristian Bail',
+  'Will Smith',
+  'Johnny Depp',
+]

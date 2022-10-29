@@ -30,18 +30,22 @@ function ActionBar(props) {
 
       <DeleteOutlineOutlinedIcon sx={{ color: red[500] }} onClick={toggleDeleteDialog(true)} />
 
-      <UpdateMovieDialog
-        movie={props.movie}
-        open={openUpdateDialog}
-        onClose={toggleUpdateDialog(false)}
-      />
+      {openUpdateDialog && (
+        <UpdateMovieDialog
+          movie={props.movie}
+          open={openUpdateDialog}
+          onClose={toggleUpdateDialog(false)}
+        />
+      )}
 
-      <DeleteMovieDialog
-        id={id}
-        name={name}
-        open={openDeleteDialog}
-        onClose={toggleDeleteDialog(false)}
-      />
+      {openDeleteDialog && (
+        <DeleteMovieDialog
+          id={id}
+          name={name}
+          open={openDeleteDialog}
+          onClose={toggleDeleteDialog(false)}
+        />
+      )}
     </Grid>
   )
 }
