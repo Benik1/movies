@@ -7,6 +7,7 @@ import {
   Container,
   CircularProgress
 } from '@mui/material';
+import moment from 'moment';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { getMovieData, resetMoveData } from '../../store/movie';
@@ -71,6 +72,8 @@ function MoviePage() {
                 {data?.actors.map((actor) => {
                   return <Typography display='inline'> {actor} </Typography>
                 })}
+                <Typography mt={4} color='primary' variant='h6' display='inline' fontStyle='italic'>Release Date </Typography>
+                <Typography display='inline'> {moment(data?.releaseDate).format('LL')} </Typography>
               </Grid>
               <Grid container item xs={12} justifyContent='center' alignItems='center' px={6} mt={3}>
                 <Typography>

@@ -1,21 +1,26 @@
 import './App.css';
 import store from './store';
 import { Provider } from 'react-redux'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Dashboard, MoviePage, NotFoundPage } from './components';
-import { routes } from './constants';
+
+import { routes } from 'constants';
+import { Dashboard, MoviePage, NotFoundPage } from 'components';
 
 function App() {
   return (
     <BrowserRouter>
-      <Provider store={store}>
-        <Routes>
-          <Route index element={<Navigate to={routes.movies} replace />} />
-          <Route path={routes.movies} element={<Dashboard />} />
-          <Route path={routes.movie} element={<MoviePage />} />
-          <Route path='*' element={<NotFoundPage />} />
-        </Routes>
-      </Provider>
+      <LocalizationProvider dateAdapter={AdapterMoment}>
+        <Provider store={store}>
+          <Routes>
+            <Route index element={<Navigate to={routes.movies} replace />} />
+            <Route path={routes.movies} element={<Dashboard />} />
+            <Route path={routes.movie} element={<MoviePage />} />
+            <Route path='*' element={<NotFoundPage />} />
+          </Routes>
+        </Provider>
+      </LocalizationProvider>
     </BrowserRouter>
   );
 }

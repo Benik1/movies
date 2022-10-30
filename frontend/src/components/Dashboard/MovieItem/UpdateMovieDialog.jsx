@@ -17,6 +17,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 import { actors } from "constants"
 import { updateMovieById } from 'store/movies';
@@ -42,7 +43,8 @@ function UpdateMovieDialog(props) {
   const { updateMovieLoading } = movies;
 
   const [movieName, setMovieName] = useState(movie.name);
-  const [actorsNames, setActorsNames] = useState(movie.actors)
+  const [actorsNames, setActorsNames] = useState(movie.actors);
+  const [releaseDate, setReleaseDate] = useState(movie.releaseDate);
 
   const onNameChange = (e) => {
     const value = e?.target?.value || ''
@@ -56,13 +58,22 @@ function UpdateMovieDialog(props) {
     );
 
   }
+
+  const onReleaseDateChange = (date) => {
+    setReleaseDate(date);
+  };
+
   const onUpdate = (e) => {
     if (updateMovieLoading) return;
     e.stopPropagation();
     dispatch(
       updateMovieById(
         movie.id,
-        { name: movieName, actors: actorsNames }
+        {
+          name: movieName,
+          actors: actorsNames,
+          releaseDate
+        }
       )
     )
       .then(() => {
@@ -80,6 +91,8 @@ function UpdateMovieDialog(props) {
     e.stopPropagation();
   }
 
+  // console.log('releaseDate ', releaseDate)
+
   return (
     <Dialog
       onClick={onClick}
@@ -90,16 +103,16 @@ function UpdateMovieDialog(props) {
     >
       <DialogTitle>{`Update movie ${movie.name}`}</DialogTitle>
       <DialogContent>
-        <Grid container>
-          <Grid item xs={12}>
+        <Grid container spacing={2} pt={2}>
+          <Grid item xs={6}>
             <TextField
-              sx={{ mt: 2 }}
+              fullWidth
               label='Movie Name'
               onChange={onNameChange}
               value={movieName} />
           </Grid>
-          <Grid item xs={12}>
-            <FormControl sx={{ m: 1, width: 300 }} fullWidth>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
               <InputLabel id="demo-multiple-checkbox-label">Actors Names</InputLabel>
               <Select
                 labelId="demo-multiple-checkbox-label"
@@ -119,6 +132,16 @@ function UpdateMovieDialog(props) {
                 ))}
               </Select>
             </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <DesktopDatePicker
+              fullWidth
+              label="Release Data"
+              inputFormat="DD-MM-YYYY"
+              value={releaseDate}
+              onChange={onReleaseDateChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
           </Grid>
         </Grid>
       </DialogContent>
