@@ -91,8 +91,6 @@ function UpdateMovieDialog(props) {
     e.stopPropagation();
   }
 
-  // console.log('releaseDate ', releaseDate)
-
   return (
     <Dialog
       onClick={onClick}
