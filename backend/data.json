@@ -4,7 +4,7 @@
       "id": 1,
       "src": "https://i.postimg.cc/RV1jPdsr/700.jpg",
       "trailerSrc": "https://www.youtube.com/embed/plK6p9D2fj4",
-      "name": "Aladin",
+      "name": "plipos",
       "description": " is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
       "releaseDate": "2022-06-12T11:44:12.000Z",
       "actors": [
@@ -26,12 +26,13 @@
       "trailerSrc": "https://www.youtube.com/embed/plK6p9D2fj4",
       "name": "Aladin",
       "description": " is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      "releaseDate": "06-08-2021",
+      "releaseDate": "2021-08-23T20:00:00.000Z",
       "actors": [
         "Angelina Jolie",
         "James Cameron",
         "Orlando Bloom",
-        "Megan Fox"
+        "Megan Fox",
+        "Salma Hayek"
       ],
       "genres": [
         "Drama",
@@ -64,7 +65,7 @@
       "id": 4,
       "src": "https://i.postimg.cc/RV1jPdsr/700.jpg",
       "trailerSrc": "https://www.youtube.com/embed/plK6p9D2fj4",
-      "name": "Aladin",
+      "name": "Valod",
       "description": " is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
       "releaseDate": "06-08-2021",
       "actors": [

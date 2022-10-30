@@ -26,9 +26,8 @@ const updateMovieById = (req, res) => {
         res.end(JSON.stringify('Internal server error'));
         return;
       }
-
       setTimeout(() => {
-        res.json({ movies: newMovies });
+        res.json(newMovies.find(movie => movie.id === Number(movieId)) || null);
       }, 1000);
     })
 

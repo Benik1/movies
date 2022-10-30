@@ -36,7 +36,10 @@ function moviesReducer(state = initialState, action) {
     case MOVIES_DELETE_MOVIE:
       return { ...state, data: action.payload }
     case MOVIES_UPDATE_MOVIE:
-      return { ...state, data: action.payload }
+      return {
+        ...state,
+        data: state.data.map((movie) => movie.id === action.payload.id ? action.payload : movie)
+      }
     case MOVIES_CHANGE_UPDATE_LOADING:
       return { ...state, updateMovieLoading: action.payload }
     default:
@@ -69,10 +72,9 @@ const updateMovieById = (id, body) => {
     dispatch({ type: MOVIES_CHANGE_UPDATE_LOADING, payload: true });
     return services.updateMovie(id, body)
       .then((response) => {
-        const movies = response?.data?.movies || [];
         dispatch({
           type: MOVIES_UPDATE_MOVIE,
-          payload: movies
+          payload: response?.data || null
         })
         return Promise.resolve()
       })
