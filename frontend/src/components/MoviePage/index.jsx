@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Grid,
   Card,
@@ -10,7 +10,7 @@ import {
 import moment from 'moment';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { getMovieData, resetMoveData } from '../../store/movie';
+import { getMovieData, resetMoveData, updateMovie } from 'store/movie';
 
 
 const getMoveIframe = (movie) => {
@@ -39,8 +39,18 @@ function MoviePage() {
   const dispatch = useDispatch();
 
   const movie = useSelector((state) => state.movie);
-
   const { data, loading } = movie;
+
+  const [rate, setRate] = useState(null);
+
+  useEffect(() => { setRate(data?.rate || null) }, [data])
+
+  const onRateChange = (e) => {
+    if (data?.id) {
+      const rate = Number(e.target.value);
+      dispatch(updateMovie(data.id, { rate }));
+    }
+  }
 
   useEffect(() => {
     dispatch(getMovieData(movieId));
@@ -66,11 +76,11 @@ function MoviePage() {
               <Grid container item xs={4} direction='column'>
                 <Typography variant='h4'> {data?.name}</Typography>
                 <Typography mt={4} color='primary' variant='h6' display='inline' fontStyle='italic'>Rating </Typography>
-                <Rating marginTop={10} max={10} value={data?.rate} readOnly />
+                <Rating marginTop={10} max={10} value={rate} onChange={onRateChange} />
 
                 <Typography mt={4} color='primary' variant='h6' display='inline' fontStyle='italic'>Actors </Typography>
                 {data?.actors.map((actor) => {
-                  return <Typography display='inline'> {actor} </Typography>
+                  return <Typography key={actor} display='inline'> {actor} </Typography>
                 })}
                 <Typography mt={4} color='primary' variant='h6' display='inline' fontStyle='italic'>Release Date </Typography>
                 <Typography display='inline'> {moment(data?.releaseDate).format('LL')} </Typography>
