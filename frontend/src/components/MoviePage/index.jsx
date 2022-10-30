@@ -61,7 +61,7 @@ function MoviePage() {
   }, [movieId]);
 
   return (
-    <Container sx={{ paddingTop: 4 }}>
+    <Container sx={{ mt: '60px', paddingTop: 4 }}>
       <Grid container justifyContent='center'>
         {loading ? (
           <CircularProgress size={70} sx={{ marginTop: 40 }} />

@@ -1,12 +1,10 @@
-
-import { useSelector, useDispatch } from 'react-redux'
-import { Container, Grid, CircularProgress } from '@mui/material';
-
-import { getAllMovies } from '../../store/movies'
 import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Container, Grid, CircularProgress, IconButton } from '@mui/material';
 
 import MovieItem from './MovieItem';
-
+import { getAllMovies } from 'store/movies'
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -20,7 +18,7 @@ function Dashboard() {
   }, [])
 
   return (
-    <Container sx={{ paddingTop: 4 }} >
+    <Container sx={{ mt: '60px', paddingTop: 4 }} >
       <Grid container spacing={3} justifyContent='center'>
         {loading ? (
           <CircularProgress size={70} sx={{ marginTop: 40 }} />
@@ -34,6 +32,9 @@ function Dashboard() {
           })
         )}
       </Grid>
+      <IconButton sx={{ position: 'fixed', bottom: 30, right: 30 }}>
+        <AddCircleIcon color='secondary' sx={{ fontSize: 60 }} />
+      </IconButton>
     </Container>
   )
 }
