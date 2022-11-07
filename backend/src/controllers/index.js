@@ -21,7 +21,11 @@ const deleteMovieById = async (req, res) => {
   try {
     const { movieId } = req.params;
     await Movie.destroy({ where: { id: movieId } });
-    const movies = await Movie.findAll();
+    const movies = await Movie.findAll({
+      order: [
+        ['release_date', 'DESC']
+      ],
+    });
     res.json(movies);
   } catch(error) {
     res.status(500).json(error);
@@ -40,7 +44,11 @@ const getMovieById = async (req, res) => {
 
 const getAllMovies = async (req, res) => {
   try {
-    const movies = await Movie.findAll();
+    const movies = await Movie.findAll({
+      order: [
+        ['release_date', 'DESC']
+      ],
+    });
     res.json(movies);
   } catch(error) {
     res.status(500).json(error);
