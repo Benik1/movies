@@ -18,7 +18,7 @@ function MovieItem(props) {
             src={thumbnailSrc}
             alt={name}
           />
-          <Typography mt={1} variant='h6'> {`${name}: ${id}`} </Typography>
+          <Typography mt={1} variant='h6'> {name} </Typography>
           <Typography sx={{ maxHeight: 150, overflow: 'hidden' }}> {description} </Typography>
           <ActionBar movie={props.movie} />
         </Grid>
