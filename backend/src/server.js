@@ -8,7 +8,8 @@ const {
   updateMovieById
 } = require('./controllers');
 const bodyParser = require('body-parser');
-const cors = require('cors')
+const cors = require('cors');
+const sequelize = require('./sequelize');
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.post(endpoints.MOVIES, addMovie);
 app.delete(endpoints.MOVIE, deleteMovieById);
 app.put(endpoints.MOVIE, updateMovieById);
 
-
-app.listen(environment.PORT, () => {
-  console.log(`Example app listening on port ${environment.PORT}`)
-})
+app.listen(environment.PORT, async () => {
+  console.log(`Example app listening on port ${environment.PORT}`);
+  await sequelize.sync({ alter: true });
+});

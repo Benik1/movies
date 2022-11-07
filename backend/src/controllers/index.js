@@ -1,133 +1,59 @@
-const fs = require('fs');
-const path = require('path');
+const { Movie } = require('../models');
 
-const updateMovieById = (req, res) => {
-  const { movieId } = req.params;
-
-  const filePath = path.join(__dirname, '..', '..', 'data.json');
-  fs.readFile(filePath, 'utf-8', (error, jsonData) => {
-    if (error) {
-      res.writeHead(500);
-      res.end(JSON.stringify('Internal server error'));
-      return;
-    }
-    const { movies } = JSON.parse(jsonData);
-
-    const newMovies = movies.map(movie => {
-      if (movie.id === Number(movieId)) {
-        return { ...movie, ...req.body }
+const updateMovieById = async (req, res) => {
+  try {
+    const { movieId } = req.params;
+    const [_, movie] = await Movie.update(
+      req.body,
+      {
+        where: { id: movieId },
+        returning: true,
+        plain: true
       }
-      return movie;
-    });
-
-    fs.writeFile(filePath, JSON.stringify({ movies: newMovies }), (error) => {
-      if (error) {
-        res.writeHead(500);
-        res.end(JSON.stringify('Internal server error'));
-        return;
-      }
-      setTimeout(() => {
-        res.json(newMovies.find(movie => movie.id === Number(movieId)) || null);
-      }, 1000);
-    })
-
-  })
-
+    );
+    res.json(movie);
+  } catch(error) {
+    res.status(500).json(error);
+  }
 }
 
-
-const deleteMovieById = (req, res) => {
-  const { movieId } = req.params;
-
-  const filePath = path.join(__dirname, '..', '..', 'data.json');
-  fs.readFile(filePath, 'utf-8', (error, jsonData) => {
-    if (error) {
-      res.writeHead(500);
-      res.end(JSON.stringify('Internal server error'));
-      return;
-    }
-    const { movies } = JSON.parse(jsonData);
-
-    const newMovies = movies.filter(movie => movie.id !== Number(movieId));
-
-    fs.writeFile(filePath, JSON.stringify({ movies: newMovies }), (error) => {
-      if (error) {
-        res.writeHead(500);
-        res.end(JSON.stringify('Internal server error'));
-        return;
-      }
-
-      setTimeout(() => {
-        res.json({ movies: newMovies });
-      }, 1000);
-    })
-
-  })
+const deleteMovieById = async (req, res) => {
+  try {
+    const { movieId } = req.params;
+    await Movie.destroy({ where: { id: movieId } });
+    const movies = await Movie.findAll();
+    res.json(movies);
+  } catch(error) {
+    res.status(500).json(error);
+  }
 }
 
-const getMovieById = (req, res) => {
-  const { movieId } = req.params;
-  const filePath = path.join(__dirname, '..', '..', 'data.json');
-  fs.readFile(filePath, 'utf-8', (error, jsonData) => {
-    if (error) {
-      res.writeHead(500);
-      res.end(JSON.stringify('Internal server error'));
-      return;
-    }
-    setTimeout(() => {
-      const { movies } = JSON.parse(jsonData);
-      const movie = movies?.find(movie => movie.id === Number(movieId)) || null;
-      res.json(movie);
-    }, 1000);
-  })
+const getMovieById = async (req, res) => {
+  try {
+    const { movieId } = req.params;
+    const [movie] = await Movie.findAll({ where: { id: movieId } });
+    res.json(movie);
+  } catch(error) {
+    res.status(500).json(error);
+  }
 }
 
-const getAllMovies = (req, res) => {
-  const filePath = path.join(__dirname, '..', '..', 'data.json');
-
-  fs.readFile(filePath, (error, jsonData) => {
-    if (error) {
-      res.writeHead(500);
-      res.end(JSON.stringify('Internal server error'));
-      return;
-    }
-
-    setTimeout(() => {
-      res.json(JSON.parse(jsonData));
-    }, 1000);
-  });
+const getAllMovies = async (req, res) => {
+  try {
+    const movies = await Movie.findAll();
+    res.json(movies);
+  } catch(error) {
+    res.status(500).json(error);
+  }
 }
 
-const addMovie = (req, res) => {
-  const filePath = path.join(__dirname, '..', '..', 'data.json');
-
-  fs.readFile(filePath, (error, jsonData) => {
-    if (error) {
-      res.writeHead(500);
-      res.end(JSON.stringify('Internal server error'));
-      return;
-    }
-
-    const movie = req.body;
-    const fileData = JSON.parse(jsonData);
-    const { movies } = fileData;
-    const rate = Math.round(Math.random() * (10 - 1) + 1);
-    const newMovie = { id: movies.length + 1, ...movie, rate }
-    movies.push(newMovie);
-    const writingData = JSON.stringify(fileData);
-
-    fs.writeFile(filePath, writingData, (error) => {
-      if (error) {
-        res.writeHead(500);
-        res.end(JSON.stringify('Internal server error'));
-        return;
-      }
-
-      setTimeout(() => {
-        res.json(newMovie);
-      }, 1000);
-    })
-  });
+const addMovie = async (req, res) => {
+  try {
+    const movie = await Movie.create(req.body);
+    res.json(movie);
+  } catch(error) {
+    res.status(500).json(error);
+  }
 }
 
 module.exports = {

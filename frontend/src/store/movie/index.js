@@ -7,6 +7,7 @@ const initialState = {
 
 export const MOVIE_GET_MOVIE_DATA = 'movie/getMovieData';
 export const MOVIE_CHANGE_LOADING = 'movie/changeLoading';
+
 export const MOVIE_RESET = 'movie/reset';
 export const MOVIE_UPDATE_MOVIE = 'movie/updateMovie';
 

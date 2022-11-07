@@ -75,15 +75,13 @@ function MoviePage() {
               </Grid>
               <Grid container item xs={4} direction='column'>
                 <Typography variant='h4'> {data?.name}</Typography>
+
                 <Typography mt={4} color='primary' variant='h6' display='inline' fontStyle='italic'>Rating </Typography>
                 <Rating marginTop={10} max={10} value={rate} onChange={onRateChange} />
 
-                <Typography mt={4} color='primary' variant='h6' display='inline' fontStyle='italic'>Actors </Typography>
-                {data?.actors.map((actor) => {
-                  return <Typography key={actor} display='inline'> {actor} </Typography>
-                })}
                 <Typography mt={4} color='primary' variant='h6' display='inline' fontStyle='italic'>Release Date </Typography>
                 <Typography display='inline'> {moment(data?.releaseDate).format('LL')} </Typography>
+
               </Grid>
               <Grid container item xs={12} justifyContent='center' alignItems='center' px={6} mt={3}>
                 <Typography>

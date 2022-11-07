@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ActionBar from './ActionBar';
 
 function MovieItem(props) {
-  const { id, src, name, description } = props.movie;
+  const { id, thumbnailSrc, name, description } = props.movie;
 
   return (
     <Link to={`${id}`}>
@@ -15,7 +15,7 @@ function MovieItem(props) {
               maxHeight: 300,
               borderRadius: 8
             }}
-            src={src}
+            src={thumbnailSrc}
             alt={name}
           />
           <Typography mt={1} variant='h6'> {`${name}: ${id}`} </Typography>
