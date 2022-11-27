@@ -34,8 +34,6 @@ const deleteMovieById = async (req, res) => {
 
 const getMovieById = async (req, res) => {
   try {
-
-    console.log('req.params ', req.params)
     const { movieId } = req.params;
     const [movie] = await Movie.findAll({ where: { id: movieId } });
     res.json(movie);

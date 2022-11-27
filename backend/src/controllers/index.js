@@ -49,9 +49,13 @@ const auth = (req, res, next) =>{
       } else {
         res.status(401).send('Unauthorized');
       }
+
+
     } else {
       res.status(401).send('Unauthorized');
     }
+
+
   } catch(e) {
     res.status(401).send('Unauthorized');
   }
