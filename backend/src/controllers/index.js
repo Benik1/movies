@@ -1,73 +1,68 @@
-const { Movie } = require('../models');
+const jwt = require('jwt-simple')
+const movies = require('./movie');
 
-const updateMovieById = async (req, res) => {
+const users = [
+  {
+    id: 1,
+    userName: 'Karen',
+    password: 'karen123!'
+  },
+  {
+    id: 2,
+    userName: 'Benik',
+    password: 'benik123!'
+  }
+]
+
+const secret = 'secret-key';
+
+
+const login = (req, res) => {
+  const { userName, password } = req.body;
+  const user = users.find((user) => {
+    return user.userName === userName && user.password === password
+  });
+  if(user) {
+    const payload = { id: user.id};
+    const token = jwt.encode(payload, secret);
+    res.json({ token });
+  } else {
+    res.status(401).send('Unauthorized')
+  }
+}
+
+
+const auth = (req, res, next) =>{
+  const access_token = req.headers.access_token;
   try {
-    const { movieId } = req.params;
-    const [_, movie] = await Movie.update(
-      req.body,
-      {
-        where: { id: movieId },
-        returning: true,
-        plain: true
+    if(access_token) {
+      const decoded = jwt.decode(access_token, secret);
+      if(!decoded.id) {
+        res.status(401).send('Unauthorized');
       }
-    );
-    res.json(movie);
-  } catch(error) {
-    res.status(500).json(error);
-  }
-}
+      const user = users.find(user => {
+        return user.id === decoded.id
+      });
 
-const deleteMovieById = async (req, res) => {
-  try {
-    const { movieId } = req.params;
-    await Movie.destroy({ where: { id: movieId } });
-    const movies = await Movie.findAll({
-      order: [
-        ['release_date', 'DESC']
-      ],
-    });
-    res.json(movies);
-  } catch(error) {
-    res.status(500).json(error);
-  }
-}
-
-const getMovieById = async (req, res) => {
-  try {
-    const { movieId } = req.params;
-    const [movie] = await Movie.findAll({ where: { id: movieId } });
-    res.json(movie);
-  } catch(error) {
-    res.status(500).json(error);
-  }
-}
-
-const getAllMovies = async (req, res) => {
-  try {
-    const movies = await Movie.findAll({
-      order: [
-        ['release_date', 'DESC']
-      ],
-    });
-    res.json(movies);
-  } catch(error) {
-    res.status(500).json(error);
-  }
-}
-
-const addMovie = async (req, res) => {
-  try {
-    const movie = await Movie.create(req.body);
-    res.json(movie);
-  } catch(error) {
-    res.status(500).json(error);
+      if(user) {
+        next();
+      } else {
+        res.status(401).send('Unauthorized');
+      }
+    } else {
+      res.status(401).send('Unauthorized');
+    }
+  } catch(e) {
+    res.status(401).send('Unauthorized');
   }
 }
 
 module.exports = {
-  addMovie,
-  getMovieById,
-  getAllMovies,
-  deleteMovieById,
-  updateMovieById
+  auth: auth,
+  login: login,
+  addMovie: movies.addMovie,
+  getMovieById: movies.getMovieById,
+  getAllMovies: movies.getAllMovies,
+  deleteMovieById: movies.deleteMovieById,
+  updateMovieById: movies.updateMovieById
 }
