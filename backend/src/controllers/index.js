@@ -9,6 +9,7 @@ module.exports = {
   deleteMovieById: movies.deleteMovieById,
   updateMovieById: movies.updateMovieById,
 
+  auth: userControllers.auth,
   singUp: userControllers.singUp,
   singIn: userControllers.singIn,
 }

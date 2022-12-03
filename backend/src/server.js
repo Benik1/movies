@@ -1,6 +1,7 @@
 const express = require('express');
 const { environment }  = require('./constants');
 const {
+  auth,
   singIn,
   singUp,
   addMovie,
@@ -21,7 +22,7 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.post('/sing-in', singIn);
 app.post('/sing-up', singUp);
 
-// app.use(auth);
+app.use(auth);
 
 app.post('/movies', addMovie);
 app.get('/movies', getAllMovies);

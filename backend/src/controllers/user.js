@@ -5,6 +5,25 @@ const { User } = require('../models');
 const SALT_ROUNDS = 10;
 const SECRET_KEY = 'secret-key';
 
+const auth = async (req, res, next) => {
+  const access_token = req.headers.access_token;
+  try {
+    if (access_token) {
+      const decodedPayload = jwt.decode(access_token, SECRET_KEY);
+      const user = await User.findOne({ where: { id: decodedPayload.id } });
+      if (!user) {
+        return res.status(401).send('Unauthorized');
+      } {
+        return next();
+      }
+    } else {
+      res.status(401).send('Unauthorized');
+    }
+  } catch (e) {
+    res.status(401).send('Unauthorized');
+  }
+}
+
 const singIn = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -42,5 +61,6 @@ const singUp = async (req, res) => {
 
 module.exports = {
   singUp,
-  singIn
+  singIn,
+  auth
 }
