@@ -1,8 +1,8 @@
 const express = require('express');
 const { environment }  = require('./constants');
 const {
-  auth,
-  login,
+  singIn,
+  singUp,
   addMovie,
   getAllMovies,
   getMovieById,
@@ -18,9 +18,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' }));
 
-app.post('/login', login);
+app.post('/sing-in', singIn);
+app.post('/sing-up', singUp);
 
-app.use(auth);
+// app.use(auth);
 
 app.post('/movies', addMovie);
 app.get('/movies', getAllMovies);
@@ -34,5 +35,6 @@ app.use('*', function(req, res, next) {
 
 app.listen(environment.PORT, async () => {
   console.log(`Example app listening on port ${environment.PORT}`);
-  await sequelize.sync({ alter: true });
+  // await sequelize.sync({ force: true });
+  await sequelize.sync();
 });

@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 
+const User = require('./user');
 const sequelize = require('../sequelize');
 
 const Movie = sequelize.define('movies', {
@@ -35,5 +36,8 @@ const Movie = sequelize.define('movies', {
     field: 'rate'
   },
 }, {});
+
+User.hasMany(Movie);
+Movie.belongsTo(User);
 
 module.exports = Movie;
