@@ -54,7 +54,9 @@ const singUp = async (req, res) => {
       email: req?.body.email,
       passwordHash: hashedPassword
     });
-    res.json(user);
+    const payload = { id: user.id };
+    const token = jwt.encode(payload, SECRET_KEY);
+    return res.json({ profile: user, token });
   } catch (error) {
     res.status(500).json(error);
   }
