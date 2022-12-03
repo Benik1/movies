@@ -7,6 +7,25 @@ const instance = axios.create({
   timeout: 10000,
 });
 
+instance.interceptors.request.use(
+  (request) => {
+    const token = localStorage.getItem('access_token');
+    if(token) {
+      request.headers.access_token = token;
+    }
+    return request
+  }
+)
+
+instance.interceptors.response.use(
+  (response) => response,
+  (error => {
+    if (error.response && error.response.status === 401) {
+      window.location.href = '/sing-in';
+    }
+  })
+)
+
 const getAllMovies = () => (
   instance.get(endpoints.MOVIES)
 )
@@ -31,9 +50,14 @@ const singUp = (data) => (
   instance.post(endpoints.SING_UP, data)
 )
 
+const getProfile = () => (
+  instance.get(endpoints.PROFILE)
+)
+
 export default {
   singIn,
   singUp,
+  getProfile,
 
   updateMovie,
   getAllMovies,

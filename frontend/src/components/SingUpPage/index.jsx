@@ -8,8 +8,8 @@ import {
   CircularProgress,
 } from '@mui/material';
 import * as yup from 'yup';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import { singUp } from '../../store/user';
 
@@ -39,6 +39,9 @@ function SingUpPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const user = useSelector(state => state.user);
+  const { profile  } = user;
+
   const onSubmit = (values, helpers) => {
     dispatch(singUp({
       email: values.email,
@@ -59,7 +62,7 @@ function SingUpPage() {
     validationSchema: singUpSchema
   })
 
-  return (
+  return !profile ? (
     <Grid
       container
       alignItems='center'
@@ -183,6 +186,8 @@ function SingUpPage() {
         </form>
       </Paper>
     </Grid>
+  ) : (
+    <Navigate to='/' replace />
   )
 }
 

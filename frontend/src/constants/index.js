@@ -2,6 +2,7 @@ export const endpoints = {
   SING_IN: '/sing-in',
   SING_UP: '/sing-up',
   MOVIES: '/movies',
+  PROFILE: '/profile',
   MOVIE: (id) => `/movies/${id}`
 }
 

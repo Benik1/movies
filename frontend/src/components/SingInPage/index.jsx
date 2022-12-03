@@ -8,9 +8,9 @@ import {
   CircularProgress,
 } from '@mui/material';
 import * as yup from 'yup';
-import { useDispatch } from 'react-redux';
 import { singIn } from '../../store/user';
-import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 
 const initialValues = { email: '', password: '' };
 
@@ -28,6 +28,9 @@ function SingInPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const user = useSelector(state => state.user);
+  const { profile  } = user;
+
   const onSubmit = (values, helpers) => {
     dispatch(singIn(values))
       .then(() => navigate('/'))
@@ -35,7 +38,6 @@ function SingInPage() {
         helpers.resetForm();
         helpers.setSubmitting(false);
       })
-
   }
 
   const formik = useFormik({
@@ -44,7 +46,7 @@ function SingInPage() {
     validationSchema: singInSchema
   })
 
-  return (
+  return !profile ? (
     <Grid
       container
       alignItems='center'
@@ -123,6 +125,8 @@ function SingInPage() {
         </form>
       </Paper>
     </Grid>
+  ) : (
+    <Navigate to='/' replace />
   )
 }
 

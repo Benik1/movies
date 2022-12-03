@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import theme from '../src/theme';
 import { routes } from 'constants';
+import PrivateRoute from './PrivateRoute';
 import { Dashboard, MoviePage, NotFoundPage, SingInPage, SingUpPage } from 'components';
 
 function App() {
@@ -18,11 +19,13 @@ function App() {
           <Provider store={store}>
             <Routes>
               <Route index element={<Navigate to={routes.movies} replace />} />
-              <Route path={routes.movies} element={<Dashboard />} />
-              <Route path={routes.movie} element={<MoviePage />} />
               <Route path={routes.singIn} element={<SingInPage />} />
               <Route path={routes.singUp} element={<SingUpPage />} />
-              <Route path='*' element={<NotFoundPage />} />
+              <Route path='/' element={<PrivateRoute />}>
+                <Route path={routes.movies} element={<Dashboard />} />
+                <Route path={routes.movie} element={<MoviePage />} />
+                <Route path='*' element={<NotFoundPage />} />
+              </Route>
             </Routes>
           </Provider>
         </LocalizationProvider>
