@@ -11,6 +11,8 @@ export const MOVIE_CHANGE_LOADING = 'movie/changeLoading';
 export const MOVIE_RESET = 'movie/reset';
 export const MOVIE_UPDATE_MOVIE = 'movie/updateMovie';
 
+export const RESET_MOVIE = 'movie/resetMovie'
+
 function movieReducer(state = initialState, action) {
   switch (action.type) {
     case MOVIE_GET_MOVIE_DATA:
@@ -19,7 +21,7 @@ function movieReducer(state = initialState, action) {
       return { ...state, loading: action.payload }
     case MOVIE_UPDATE_MOVIE:
       return { ...state, data: action.payload }
-    case MOVIE_RESET:
+    case RESET_MOVIE:
       return initialState;
     default:
       return state
@@ -60,12 +62,10 @@ const getMovieData = (movieId) => {
   }
 }
 
-const resetMoveData = () => {
-  return {
-    type: MOVIE_RESET
-  }
-}
+const resetMove = () => ({
+  type: MOVIE_RESET
+})
 
-export { getMovieData, resetMoveData, updateMovie }
+export { getMovieData, resetMove, updateMovie }
 
 export default movieReducer;

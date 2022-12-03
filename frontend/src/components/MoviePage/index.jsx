@@ -10,7 +10,7 @@ import {
 import moment from 'moment';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { getMovieData, resetMoveData, updateMovie } from 'store/movie';
+import { getMovieData, resetMove, updateMovie } from 'store/movie';
 import NavBar from '../NavBar';
 
 const getMoveIframe = (movie) => {
@@ -56,7 +56,7 @@ function MoviePage() {
     dispatch(getMovieData(movieId));
 
     return () => {
-      dispatch(resetMoveData());
+      dispatch(resetMove());
     }
   }, [movieId]);
 

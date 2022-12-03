@@ -19,6 +19,8 @@ export const MOVIES_CHANGE_DELETE_LOADING = 'movies/changeDeleteLoading';
 export const MOVIES_UPDATE_MOVIE = 'movies/updateMovie';
 export const MOVIES_CHANGE_UPDATE_LOADING = 'movies/changeUpdateLoading';
 
+export const RESET_MOVIES = 'movies/resetMovies'
+
 function moviesReducer(state = initialState, action) {
   switch (action.type) {
     case MOVIES_GET_ALL_MOVIES:
@@ -42,6 +44,8 @@ function moviesReducer(state = initialState, action) {
     case MOVIES_CHANGE_UPDATE_LOADING:
       return { ...state, updateMovieLoading: action.payload }
 
+    case RESET_MOVIES:
+      return initialState;
     default:
       return state
   }
@@ -117,7 +121,10 @@ const addMovie = (movie) => {
   }
 }
 
+export const resetMovies = () => ({
+  type: RESET_MOVIES
+})
 
-export { addMovie, getAllMovies, deleteMovieById, updateMovieById }
+export { addMovie, getAllMovies, deleteMovieById, updateMovieById, resetMovies }
 
 export default moviesReducer;

@@ -4,7 +4,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Container, Grid, CircularProgress, IconButton,  } from '@mui/material';
 
 import MovieItem from './MovieItem';
-import { getAllMovies } from 'store/movies'
+import { getAllMovies, resetMovies } from 'store/movies'
 import NavBar from '../NavBar';
 
 function Dashboard() {
@@ -16,6 +16,9 @@ function Dashboard() {
 
   useEffect(() => {
     dispatch(getAllMovies())
+    return () => {
+      dispatch(resetMovies())
+    }
   }, [])
 
   return (

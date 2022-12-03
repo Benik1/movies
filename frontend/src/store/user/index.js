@@ -1,6 +1,5 @@
 import services from '../../services';
 
-
 const initialState = {
   profile: null,
   loading: false,
@@ -15,6 +14,7 @@ export const USER_CHANGE_GET_PROFILE_LOADING = 'user/userChangeGetProfileLoading
 export const USER_CHANGE_SING_IN_LOADING = 'user/userChangeSingInLoading';
 export const USER_CHANGE_SING_UP_LOADING = 'user/userChangeSingUpLoading';
 export const USER_SING_OUT = 'user/changeSurname';
+export const RESET_PROFILE = 'user/resetProfile';
 
 function userReducer(state = initialState, action) {
   switch (action.type) {
@@ -35,6 +35,9 @@ function userReducer(state = initialState, action) {
 
     case USER_SING_OUT:
       return { ...state, profile: null }
+
+    case RESET_PROFILE:
+      return initialState;
 
     default:
       return state
@@ -105,6 +108,10 @@ const getProfile = () => {
   }
 }
 
-export { singIn, singUp, getProfile };
+const resetProfile = () => ({
+  type: RESET_PROFILE
+})
+
+export { singIn, singUp, getProfile, resetProfile };
 
 export default userReducer;
