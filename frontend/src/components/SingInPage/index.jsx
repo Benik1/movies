@@ -1,20 +1,36 @@
 import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { singIn } from '../../store/user';
 import { Grid, TextField, Button, Paper, CircularProgress } from '@mui/material';
 
 const initialValues = { email: '', password: '' };
 
+export const singInSchema = yup.object({
+  email: yup
+    .string()
+    .email('Enter a valid email')
+    .required('Email is required'),
+  password: yup
+    .string()
+    .required('Password is required'),
+});
+
 function SingInPage() {
+  const dispatch = useDispatch();
 
   const onSubmit = (values, helpers) => {
-    console.log('values ', values)
-
-    // helpers.resetForm();
-    // helpers.setSubmitting(false);
+    dispatch(singIn(values))
+      .finally((res) => {
+        helpers.resetForm();
+        helpers.setSubmitting(false);
+      })
   }
 
   const formik = useFormik({
     onSubmit,
-    initialValues
+    initialValues,
+    validationSchema: singInSchema
   })
 
   return (
@@ -36,6 +52,7 @@ function SingInPage() {
                 name='email'
                 fullWidth
                 label='Email'
+                disabled={formik.isSubmitting}
                 value={formik.values.email}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -49,6 +66,7 @@ function SingInPage() {
                 name='password'
                 label='Password'
                 type='password'
+                disabled={formik.isSubmitting}
                 value={formik.values.password}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}

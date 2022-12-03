@@ -26,16 +26,17 @@ function userReducer(state = initialState, action) {
 const singIn = (data) => {
   return dispatch => {
     dispatch({ type: USER_CHANGE_SING_IN_LOADING, payload: true });
-    services.singIn(data)
+    return services.singIn(data)
       .then((response) => {
         const { profile } = response?.data;
         dispatch({
           type: USER_SING_IN,
           payload: profile
         })
+        return Promise.resolve(profile);
       })
-      .catch(() => {
-        // :TODO
+      .catch((error) => {
+        return Promise.reject(error)
       })
       .finally(() => {
         dispatch({ type: USER_CHANGE_SING_IN_LOADING, payload: false });
