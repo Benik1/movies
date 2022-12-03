@@ -1,26 +1,48 @@
-
+import services from '../../services';
 
 
 const initialState = {
-  id: 1,
-  name: 'Benik',
-  surname: 'Khudinyan'
+  profile: null,
+  loading: false
 }
 
-export const USER_CHANGE_NAME = 'user/changeName';
-export const USER_CHANGE_SURNAME = 'user/changeSurname';
+export const USER_SING_IN = 'user/singIn';
+export const USER_CHANGE_SING_IN_LOADING = 'user/userChangeSingInLoading';
+export const USER_DING_OUT = 'user/changeSurname';
 
 function userReducer(state = initialState, action) {
   switch (action.type) {
-    case USER_CHANGE_NAME:
-      const { name } = action.payload;
-      return { ...state, name }
-    case USER_CHANGE_SURNAME:
-      const { surname } = action.payload;
-      return { ...state, surname }
+    case USER_SING_IN:
+      return { ...state, profile: action.payload }
+    case USER_DING_OUT:
+      return { ...state, profile: null }
+    case USER_CHANGE_SING_IN_LOADING:
+      return { ...state, loading: action.payload }
     default:
       return state
   }
 }
+
+const singIn = (data) => {
+  return dispatch => {
+    dispatch({ type: USER_CHANGE_SING_IN_LOADING, payload: true });
+    services.singIn(data)
+      .then((response) => {
+        const { profile } = response?.data;
+        dispatch({
+          type: USER_SING_IN,
+          payload: profile
+        })
+      })
+      .catch(() => {
+        // :TODO
+      })
+      .finally(() => {
+        dispatch({ type: USER_CHANGE_SING_IN_LOADING, payload: false });
+      })
+  }
+}
+
+export { singIn };
 
 export default userReducer;

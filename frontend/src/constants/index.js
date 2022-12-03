@@ -1,10 +1,13 @@
 export const endpoints = {
+  SING_IN: '/sing-in',
   MOVIES: '/movies',
   MOVIE: (id) => `/movies/${id}`
 }
 
 export const routes = {
   Home: '/',
+  singIn: '/sing-in',
+  singUp: '/sing-up',
   movies: '/movies',
   movie: '/movies/:movieId'
 }

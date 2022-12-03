@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Container, Grid, CircularProgress, IconButton } from '@mui/material';
+import { Container, Grid, CircularProgress, IconButton,  } from '@mui/material';
 
 import MovieItem from './MovieItem';
 import { getAllMovies } from 'store/movies'
+import NavBar from '../NavBar';
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function Dashboard() {
 
   return (
     <Container sx={{ mt: '60px', paddingTop: 4 }} >
+      <NavBar />
       <Grid container spacing={3} justifyContent='center'>
         {loading ? (
           <CircularProgress size={70} sx={{ marginTop: 40 }} />

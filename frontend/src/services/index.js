@@ -23,8 +23,14 @@ const updateMovie = (id, data) => (
   instance.put(endpoints.MOVIE(id), data)
 )
 
+const singIn = (data) => (
+  instance.post(endpoints.SING_IN, data)
+)
+
 
 export default {
+  singIn,
+
   updateMovie,
   getAllMovies,
   getMoveById,
