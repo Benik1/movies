@@ -121,7 +121,7 @@ const addMovie = (movie) => {
   }
 }
 
-export const resetMovies = () => ({
+const resetMovies = () => ({
   type: RESET_MOVIES
 })
 
