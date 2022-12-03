@@ -14,6 +14,7 @@ const auth = async (req, res, next) => {
       if (!user) {
         return res.status(401).send('Unauthorized');
       } {
+        res.locals = { userId: decodedPayload.id }
         return next();
       }
     } else {
