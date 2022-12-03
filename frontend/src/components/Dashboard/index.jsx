@@ -1,14 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Container, Grid, CircularProgress, IconButton,  } from '@mui/material';
 
-import MovieItem from './MovieItem';
-import { getAllMovies, resetMovies } from 'store/movies'
 import NavBar from '../NavBar';
+import MovieItem from './MovieItem';
+import CreateMovieDialog from './CreateMovieDialog';
+import { getAllMovies, resetMovies } from 'store/movies'
 
 function Dashboard() {
   const dispatch = useDispatch();
+
+  const [open, setOpen] = useState(false);
+  const openDialog = () => setOpen(true);
+  const closeDialog = () => setOpen(false);
 
   const movies = useSelector((state) => state.movies);
 
@@ -37,9 +42,10 @@ function Dashboard() {
           })
         )}
       </Grid>
-      <IconButton sx={{ position: 'fixed', bottom: 30, right: 30 }}>
+      <IconButton sx={{ position: 'fixed', bottom: 30, right: 30 }} onClick={openDialog}>
         <AddCircleIcon color='secondary' sx={{ fontSize: 60 }} />
       </IconButton>
+      <CreateMovieDialog open={open} onClose={closeDialog} />
     </Container>
   )
 }
