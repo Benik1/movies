@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import theme from '../src/theme';
 import { routes } from 'constants';
-import { Dashboard, MoviePage, NotFoundPage, SingInPage } from 'components';
+import { Dashboard, MoviePage, NotFoundPage, SingInPage, SingUpPage } from 'components';
 
 function App() {
   return (
@@ -21,6 +21,7 @@ function App() {
               <Route path={routes.movies} element={<Dashboard />} />
               <Route path={routes.movie} element={<MoviePage />} />
               <Route path={routes.singIn} element={<SingInPage />} />
+              <Route path={routes.singUp} element={<SingUpPage />} />
               <Route path='*' element={<NotFoundPage />} />
             </Routes>
           </Provider>

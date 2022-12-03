@@ -10,11 +10,14 @@ import {
 import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { singIn } from '../../store/user';
 
-const initialValues = { email: '', password: '' };
-
-export const singInSchema = yup.object({
+export const singUpSchema = yup.object({
+  firstName: yup
+    .string()
+    .required('First name is required'),
+  lastName: yup
+    .string()
+    .required('Last name is required'),
   email: yup
     .string()
     .email('Enter a valid email')
@@ -22,23 +25,25 @@ export const singInSchema = yup.object({
   password: yup
     .string()
     .required('Password is required'),
+  repeatedPassword: yup
+    .string()
+    .required('Password confirmation is required')
+    .oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
 
-function SingInPage() {
+const initialValues = { firstName: '', lastName: '', email: '', password: '' };
+
+function SingUpPage() {
   const dispatch = useDispatch();
 
   const onSubmit = (values, helpers) => {
-    dispatch(singIn(values))
-      .finally((res) => {
-        helpers.resetForm();
-        helpers.setSubmitting(false);
-      })
+    console.log('values ', values)
   }
 
   const formik = useFormik({
     onSubmit,
     initialValues,
-    validationSchema: singInSchema
+    validationSchema: singUpSchema
   })
 
   return (
@@ -55,6 +60,35 @@ function SingInPage() {
       <Paper elevation={3} sx={{ width: 700 }}>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={4} px={16} pt={20} pb={10}>
+
+            <Grid item xs={12}>
+              <TextField
+                name='firstName'
+                fullWidth
+                label='First Name'
+                disabled={formik.isSubmitting}
+                value={formik.values.firstName}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                helperText={formik.touched.firstName && formik.errors.firstName}
+                error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                name='lastName'
+                fullWidth
+                label='Last Name'
+                disabled={formik.isSubmitting}
+                value={formik.values.lastName}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                helperText={formik.touched.lastName && formik.errors.lastName}
+                error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+              />
+            </Grid>
+
             <Grid item xs={12}>
               <TextField
                 name='email'
@@ -68,6 +102,7 @@ function SingInPage() {
                 error={formik.touched.email && Boolean(formik.errors.email)}
               />
             </Grid>
+
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -83,8 +118,23 @@ function SingInPage() {
               />
             </Grid>
 
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                name='repeatedPassword'
+                label='Repeated password'
+                type='password'
+                disabled={formik.isSubmitting}
+                value={formik.values.repeatedPassword}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                helperText={formik.touched.repeatedPassword && formik.errors.repeatedPassword}
+                error={formik.touched.repeatedPassword && Boolean(formik.errors.repeatedPassword)}
+              />
+            </Grid>
+
             <Grid item xs={12} container justifyContent='end'>
-              <Link to='/sing-up'>
+              <Link to='/sing-in'>
                 <Typography
                   variant="subtitle2"
                   sx={(theme) => ({
@@ -93,7 +143,7 @@ function SingInPage() {
                     color: theme.palette.info.main,
                   })}
                 >
-                  Sing Up
+                  Back to sing in
                 </Typography>
               </Link>
             </Grid>
@@ -112,7 +162,7 @@ function SingInPage() {
                   />
                 )}
               >
-                Sing In
+                Sing Up
               </Button>
             </Grid>
 
@@ -123,4 +173,4 @@ function SingInPage() {
   )
 }
 
-export default SingInPage;
+export default SingUpPage;
