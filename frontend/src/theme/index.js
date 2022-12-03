@@ -82,14 +82,6 @@ const theme = createTheme({
       },
     },
 
-    MuiTableCell: {
-      styleOverrides: {
-        root: {
-          color: '#344052',
-        },
-      },
-    },
-
     MuiButton: {
       styleOverrides: {
         root: {
@@ -101,43 +93,12 @@ const theme = createTheme({
         },
       },
     },
-
-    MuiInputBase: {
-      styleOverrides: {
-        root: {
-          height: 44,
-        },
-        input: {
-          height: 9,
-        },
-      },
-    },
-
-    MuiInputLabel: {
-      styleOverrides: {
-        root: {
-          transform: 'translate(14px, 11px) scale(1)',
-        },
-        shrink: {
-          transform: 'translate(14px, -9px) scale(0.8)',
-        },
-      },
-    },
-
     MuiIconButton: {
       styleOverrides: {
         root: {
           '&.Mui-disabled': {
             opacity: 0.5,
           },
-        },
-      },
-    },
-
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
         },
       },
     },
