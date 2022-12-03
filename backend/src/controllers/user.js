@@ -36,7 +36,7 @@ const singIn = async (req, res) => {
     if (match) {
       const payload = { id: user.id };
       const token = jwt.encode(payload, SECRET_KEY);
-      return res.json({ token });
+      return res.json({ profile: user, token });
     } else {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
