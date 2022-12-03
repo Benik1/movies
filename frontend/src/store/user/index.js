@@ -68,11 +68,13 @@ const singUp = (data) => {
     dispatch({ type: USER_CHANGE_SING_UP_LOADING, payload: true });
     return services.singUp(data)
       .then((response) => {
+        const { profile, token } = response?.data;
         dispatch({
           type: USER_SING_UP,
-          payload: response?.data
+          payload: profile
         })
-        return Promise.resolve(response?.data);
+        localStorage.setItem('access_token', token);
+        return Promise.resolve(profile);
       })
       .catch((error) => {
         return Promise.reject(error)
