@@ -8,10 +8,12 @@ import {
   CircularProgress,
 } from '@mui/material';
 import * as yup from 'yup';
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
-export const singUpSchema = yup.object({
+import { singUp } from '../../store/user';
+
+const singUpSchema = yup.object({
   firstName: yup
     .string()
     .required('First name is required'),
@@ -34,10 +36,21 @@ export const singUpSchema = yup.object({
 const initialValues = { firstName: '', lastName: '', email: '', password: '' };
 
 function SingUpPage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const onSubmit = (values, helpers) => {
-    console.log('values ', values)
+    dispatch(singUp({
+      email: values.email,
+      password: values.password,
+      lastName: values.lastName,
+      firstName: values.firstName,
+    }))
+      .then(() => navigate('/'))
+      .finally(() => {
+        helpers.resetForm();
+        helpers.setSubmitting(false);
+      })
   }
 
   const formik = useFormik({

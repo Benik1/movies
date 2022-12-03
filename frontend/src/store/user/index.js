@@ -3,11 +3,14 @@ import services from '../../services';
 
 const initialState = {
   profile: null,
-  loading: false
+  loading: false,
+  singUpLoading: false,
 }
 
 export const USER_SING_IN = 'user/singIn';
+export const USER_SING_UP = 'user/singUp';
 export const USER_CHANGE_SING_IN_LOADING = 'user/userChangeSingInLoading';
+export const USER_CHANGE_SING_UP_LOADING = 'user/userChangeSingUpLoading';
 export const USER_DING_OUT = 'user/changeSurname';
 
 function userReducer(state = initialState, action) {
@@ -18,6 +21,11 @@ function userReducer(state = initialState, action) {
       return { ...state, profile: null }
     case USER_CHANGE_SING_IN_LOADING:
       return { ...state, loading: action.payload }
+
+    case USER_SING_UP:
+      return { ...state, profile: action.payload }
+    case USER_CHANGE_SING_UP_LOADING:
+      return { ...state, singUpLoading: action.payload }
     default:
       return state
   }
@@ -44,6 +52,26 @@ const singIn = (data) => {
   }
 }
 
-export { singIn };
+const singUp = (data) => {
+  return dispatch => {
+    dispatch({ type: USER_CHANGE_SING_UP_LOADING, payload: true });
+    return services.singUp(data)
+      .then((response) => {
+        dispatch({
+          type: USER_SING_UP,
+          payload: response?.data
+        })
+        return Promise.resolve(response?.data);
+      })
+      .catch((error) => {
+        return Promise.reject(error)
+      })
+      .finally(() => {
+        dispatch({ type: USER_CHANGE_SING_UP_LOADING, payload: false });
+      })
+  }
+}
+
+export { singIn, singUp };
 
 export default userReducer;

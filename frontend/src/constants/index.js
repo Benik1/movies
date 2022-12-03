@@ -1,5 +1,6 @@
 export const endpoints = {
   SING_IN: '/sing-in',
+  SING_UP: '/sing-up',
   MOVIES: '/movies',
   MOVIE: (id) => `/movies/${id}`
 }

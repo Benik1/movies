@@ -27,9 +27,13 @@ const singIn = (data) => (
   instance.post(endpoints.SING_IN, data)
 )
 
+const singUp = (data) => (
+  instance.post(endpoints.SING_UP, data)
+)
 
 export default {
   singIn,
+  singUp,
 
   updateMovie,
   getAllMovies,

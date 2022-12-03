@@ -8,13 +8,13 @@ import {
   CircularProgress,
 } from '@mui/material';
 import * as yup from 'yup';
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { singIn } from '../../store/user';
+import { Link, useNavigate } from 'react-router-dom';
 
 const initialValues = { email: '', password: '' };
 
-export const singInSchema = yup.object({
+const singInSchema = yup.object({
   email: yup
     .string()
     .email('Enter a valid email')
@@ -25,14 +25,17 @@ export const singInSchema = yup.object({
 });
 
 function SingInPage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const onSubmit = (values, helpers) => {
     dispatch(singIn(values))
-      .finally((res) => {
+      .then(() => navigate('/'))
+      .finally(() => {
         helpers.resetForm();
         helpers.setSubmitting(false);
       })
+
   }
 
   const formik = useFormik({
