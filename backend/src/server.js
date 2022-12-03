@@ -7,6 +7,7 @@ const {
   addMovie,
   getAllMovies,
   getMovieById,
+  getProfileData,
   deleteMovieById,
   updateMovieById,
 } = require('./controllers');
@@ -24,6 +25,7 @@ app.post('/sing-up', singUp);
 
 app.use(auth);
 
+app.get('/profile', getProfileData);
 app.post('/movies', addMovie);
 app.get('/movies', getAllMovies);
 app.get('/movies/:movieId', getMovieById);

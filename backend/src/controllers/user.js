@@ -60,8 +60,22 @@ const singUp = async (req, res) => {
   }
 }
 
+const getProfileData = async (req, res) => {
+  try {
+    const { userId } = res.locals;
+    const user = await User.findOne({ where: { id: userId } });
+    if(!user) {
+      return res.status(404).json({ message: "Not found" });
+    }
+    return res.json(user);
+  } catch(error) {
+    res.status(500).json(error);
+  }
+}
+
 module.exports = {
   singUp,
   singIn,
-  auth
+  auth,
+  getProfileData
 }
