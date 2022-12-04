@@ -29,7 +29,7 @@ const auth = async (req, res, next) => {
 const singIn = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email }, attributes: { exclude: 'passwordHash' } });
     if (!user) {
       return res.status(404).send('Not Found');
     }
@@ -66,7 +66,7 @@ const singUp = async (req, res) => {
 const getProfileData = async (req, res) => {
   try {
     const { userId } = res.locals;
-    const user = await User.findOne({ where: { id: userId } });
+    const user = await User.findOne({ where: { id: userId }, attributes: { exclude: 'passwordHash' } });
     if(!user) {
       return res.status(404).json({ message: "Not found" });
     }
