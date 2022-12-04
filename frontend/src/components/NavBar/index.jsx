@@ -13,6 +13,7 @@ import { resetProfile } from '../../store/user';
 import { useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function NavBar() {
   const navigate = useNavigate();
@@ -67,7 +68,13 @@ function NavBar() {
           <IconButton onClick={openMenu}>
             <Avatar>{String(profile?.firstName[0])}</Avatar>
           </IconButton>
-          <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
+          <Menu open={open} anchorEl={anchorEl} onClose={handleClose} PaperProps={{ sx: { minWidth: 150 } }}>
+            <MenuItem>
+              <ListItemIcon>
+                <AccountCircleIcon fontSize="small" />
+              </ListItemIcon>
+              Profile
+            </MenuItem>
             <MenuItem onClick={singOut}>
               <ListItemIcon>
                 <LogoutIcon fontSize="small" />
