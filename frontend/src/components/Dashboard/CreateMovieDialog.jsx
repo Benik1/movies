@@ -7,11 +7,14 @@ import {
   DialogTitle,
   DialogActions,
   DialogContent,
-  CircularProgress
+  CircularProgress,
 } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import * as yup from "yup";
 import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import getAllMovies from "../../store/movies";
+import { addMovie } from "../../store/movies";
 
 const initialValues = {
   name: "",
@@ -23,46 +26,44 @@ const initialValues = {
 };
 
 const movieSchema = yup.object({
-  name: yup
-    .string()
-    .required('Name is required'),
+  name: yup.string().required("Name is required"),
   thumbnailSrc: yup
     .string()
-    .url('Enter valid url')
-    .required('Thumbnail SRC is required'),
+    .url("Enter valid url")
+    .required("Thumbnail SRC is required"),
   trailerSrc: yup
     .string()
-    .url('Enter valid url')
-    .required('TrailerSrc SRC is required'),
-  releaseDate: yup
-    .string()
-    .nullable()
-    .required('Release date is required'),
+    .url("Enter valid url")
+    .required("TrailerSrc SRC is required"),
+  releaseDate: yup.string().nullable().required("Release date is required"),
   rate: yup
     .number()
     .min(1, "Min value is 1")
     .max(10, "Max value is 10")
-    .required('Rate is required'),
+    .required("Rate is required"),
 });
 
 function CreateMovieDialog(props) {
   const { open, onClose } = props;
+  const dispatch = useDispatch();
 
   const onSubmit = (values, helpers) => {
-    // TODO:
-    console.log("values", values);
+    dispatch(addMovie(values)).then(() => {
+      onClose();
+    });
+    dispatch(getAllMovies());
   };
 
   const formik = useFormik({
     onSubmit,
     initialValues,
-    validationSchema: movieSchema
+    validationSchema: movieSchema,
   });
 
   const closeModal = () => {
     formik.resetForm();
     onClose();
-  }
+  };
 
   const onReleaseDateChange = (date) => {
     formik.setFieldValue("releaseDate", date.toString());
@@ -136,13 +137,13 @@ function CreateMovieDialog(props) {
             <Grid item xs={6}>
               <DesktopDatePicker
                 fullWidth
-                name='releaseDate'
+                name="releaseDate"
                 label="Release Date"
                 inputFormat="DD-MM-YYYY"
                 disabled={formik.isSubmitting}
                 value={formik.values.releaseDate}
                 onChange={onReleaseDateChange}
-                helperTex='zs'
+                helperTex="zs"
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -168,12 +169,8 @@ function CreateMovieDialog(props) {
                 value={formik.values.rate}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                helperText={
-                  formik.touched.rate && formik.errors.rate
-                }
-                error={
-                  formik.touched.rate && Boolean(formik.errors.rate)
-                }
+                helperText={formik.touched.rate && formik.errors.rate}
+                error={formik.touched.rate && Boolean(formik.errors.rate)}
               />
             </Grid>
 
@@ -198,7 +195,6 @@ function CreateMovieDialog(props) {
                 }
               />
             </Grid>
-
           </Grid>
         </DialogContent>
         <DialogActions>
@@ -208,12 +204,14 @@ function CreateMovieDialog(props) {
             variant="contained"
             color="info"
             disabled={formik.isSubmitting}
-            endIcon={formik.isSubmitting && (
-              <CircularProgress
-                size={18}
-                sx={(theme) => ({ color: theme.palette.info.contrastText })}
-              />
-            )}
+            endIcon={
+              formik.isSubmitting && (
+                <CircularProgress
+                  size={18}
+                  sx={(theme) => ({ color: theme.palette.info.contrastText })}
+                />
+              )
+            }
           >
             Create
           </Button>

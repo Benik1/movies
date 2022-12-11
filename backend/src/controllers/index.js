@@ -12,5 +12,6 @@ module.exports = {
   auth: userControllers.auth,
   singUp: userControllers.singUp,
   singIn: userControllers.singIn,
-  getProfileData: userControllers.getProfileData
+  getProfileData: userControllers.getProfileData,
+  updateProfileData: userControllers.updateProfileData
 }

@@ -10,6 +10,7 @@ const {
   getProfileData,
   deleteMovieById,
   updateMovieById,
+  updateProfileData,
 } = require('./controllers');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -26,6 +27,7 @@ app.post('/sing-up', singUp);
 app.use(auth);
 
 app.get('/profile', getProfileData);
+app.put('/profile', updateProfileData);
 app.post('/movies', addMovie);
 app.get('/movies', getAllMovies);
 app.get('/movies/:movieId', getMovieById);

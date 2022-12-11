@@ -10,6 +10,7 @@ const initialState = {
 export const USER_SING_IN = 'user/singIn';
 export const USER_SING_UP = 'user/singUp';
 export const USER_GET_PROFILE = 'user/getProfile';
+export const USER_UPDATE_PROFILE = 'user/updateProfile';
 export const USER_CHANGE_GET_PROFILE_LOADING = 'user/userChangeGetProfileLoading';
 export const USER_CHANGE_SING_IN_LOADING = 'user/userChangeSingInLoading';
 export const USER_CHANGE_SING_UP_LOADING = 'user/userChangeSingUpLoading';
@@ -32,6 +33,9 @@ function userReducer(state = initialState, action) {
       return { ...state, profile: action.payload }
     case USER_CHANGE_GET_PROFILE_LOADING:
       return { ...state, getProfileLoading: action.payload }
+
+    case USER_UPDATE_PROFILE:
+      return { ...state, profile: action.payload }
 
     case USER_SING_OUT:
       return { ...state, profile: null }
@@ -108,10 +112,26 @@ const getProfile = () => {
   }
 }
 
+const updateProfile = (profileData) => {
+  return dispatch => {
+    return services.updateProfile(profileData)
+      .then((response) => {
+        dispatch({
+          type: USER_UPDATE_PROFILE,
+          payload: response?.data
+        })
+        return Promise.resolve(response?.data);
+      })
+      .catch((error) => {
+        return Promise.reject(error)
+      })
+  }
+}
+
 const resetProfile = () => ({
   type: RESET_PROFILE
 })
 
-export { singIn, singUp, getProfile, resetProfile };
+export { singIn, singUp, getProfile, resetProfile, updateProfile };
 
 export default userReducer;

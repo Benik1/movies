@@ -67,11 +67,26 @@ const getProfileData = async (req, res) => {
   try {
     const { userId } = res.locals;
     const user = await User.findOne({ where: { id: userId }, attributes: { exclude: 'passwordHash' } });
-    if(!user) {
+    if (!user) {
       return res.status(404).json({ message: "Not found" });
     }
     return res.json(user);
-  } catch(error) {
+  } catch (error) {
+    res.status(500).json(error);
+  }
+}
+
+const updateProfileData = async (req, res) => {
+  try {
+    const { userId } = res.locals;
+    const [_, updatedUser] = await User.update(req.body, {
+      where: { id: userId },
+      attributes: { exclude: 'passwordHash' },
+      returning: true,
+      plain: true
+    })
+    res.json(updatedUser);
+  } catch (error) {
     res.status(500).json(error);
   }
 }
@@ -80,5 +95,6 @@ module.exports = {
   singUp,
   singIn,
   auth,
-  getProfileData
+  getProfileData,
+  updateProfileData
 }

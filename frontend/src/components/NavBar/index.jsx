@@ -36,6 +36,10 @@ function NavBar() {
     navigate('/sing-in');
   }
 
+  const navigateToProfile = () => {
+    navigate('/profile');
+  }
+
   return (
     <AppBar
       position='fixed'
@@ -69,7 +73,7 @@ function NavBar() {
             <Avatar>{String(profile?.firstName[0])}</Avatar>
           </IconButton>
           <Menu open={open} anchorEl={anchorEl} onClose={handleClose} PaperProps={{ sx: { minWidth: 150 } }}>
-            <MenuItem>
+            <MenuItem onClick={navigateToProfile}>
               <ListItemIcon>
                 <AccountCircleIcon fontSize="small" />
               </ListItemIcon>

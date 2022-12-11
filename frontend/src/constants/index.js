@@ -11,7 +11,8 @@ export const routes = {
   singIn: '/sing-in',
   singUp: '/sing-up',
   movies: '/movies',
-  movie: '/movies/:movieId'
+  movie: '/movies/:movieId',
+  profile:'/profile'
 }
 
 export const actors = [
